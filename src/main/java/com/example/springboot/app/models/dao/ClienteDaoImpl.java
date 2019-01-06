@@ -24,7 +24,6 @@ public class ClienteDaoImpl implements IClienteDao {
 	}
 
 	@Override
-	@Transactional
 	public void save(Cliente cliente) {
 		// TODO Auto-generated method stub
 		//en el caso de editar
@@ -36,14 +35,12 @@ public class ClienteDaoImpl implements IClienteDao {
 	}
 
 	@Override
-	@Transactional
 	public Cliente findOne(Long id) {
 		// TODO Auto-generated method stub
 		return em.find(Cliente.class, id);
 	}
 
 	@Override
-	@Transactional
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		Cliente cliente = findOne(id);

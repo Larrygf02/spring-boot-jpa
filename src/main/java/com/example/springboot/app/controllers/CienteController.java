@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+//import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.example.springboot.app.models.dao.IClienteDao;
+//import com.example.springboot.app.models.dao.IClienteDao;
 import com.example.springboot.app.models.entity.Cliente;
+import com.example.springboot.app.models.service.IClienteService;
 
 @Controller
 @SessionAttributes("cliente")
 public class CienteController {
 	
 	@Autowired
-	@Qualifier("clienteDaoJPA")
-	private IClienteDao clienteDao;
+	private IClienteService clienteService;
 	
 	@RequestMapping(value="listar", method=RequestMethod.GET)
 	public String listar(Model model) {
 		model.addAttribute("titulo", "Listado de clientes");
-		model.addAttribute("clientes", clienteDao.findAll());
+		model.addAttribute("clientes", clienteService.findAll());
 		return "listar";
 	}
 	
@@ -46,7 +46,7 @@ public class CienteController {
 	public String editar(@PathVariable(value="id") Long id, Map<String, Object> model) {
 		Cliente cliente = null;
 		if (id>0) {
-			cliente = clienteDao.findOne(id);
+			cliente = clienteService.findOne(id);
 			model.put("cliente", cliente);
 			model.put("titulo", "Editar Cliente");
 			model.put("nameButton", "Editar");
@@ -62,7 +62,7 @@ public class CienteController {
 			model.addAttribute("titulo", "Formulario de Cliente");
 			return "form";
 		} 
-		clienteDao.save(cliente);
+		clienteService.save(cliente);
 		status.setComplete();
 		return "redirect:listar";
 	}
@@ -70,7 +70,7 @@ public class CienteController {
 	@RequestMapping(value="/eliminar/{id}")
 	public String eliminar(@PathVariable(value="id") Long id) {
 		if(id>0) {
-			clienteDao.delete(id);
+			clienteService.delete(id);
 		}
 		return "redirect:/listar";
 	}
